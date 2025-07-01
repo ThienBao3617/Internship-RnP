@@ -49,13 +49,13 @@ int main(void) {
     // -------------------------------
     // Configure system clock: 24MHz internal oscillator divided by 6 to get 4MHz
     CCP = 0xD8;                 // Unlock protected write
-    CLKCTRL.MCLKCTRLB = (0x01 << CLKCTRL_PDIV_gp) | CLKCTRL_PEN_bm; // Prescaler division by 6
+    CLKCTRL.MCLKCTRLB = (0x08 << CLKCTRL_PDIV_gp) | CLKCTRL_PEN_bm; // Prescaler division by 6
     
     // SECTION 2: GPIO CONFIGURATION
     // -----------------------------
     // LED (PC6) as output, initially ON (active-low: 0=ON, 1=OFF)
-    VPORTC.DIR |= LED_PIN;      // Set PC6 as output (Section 16.5.1)
-    VPORTC.OUT &= ~LED_PIN;     // Set PC6 low (LED ON) (Section 16.5.2)
+    VPORTC.DIR |= LED_PIN;      // Set PC6 as output 
+    VPORTC.OUT &= ~LED_PIN;     // Set PC6 low (LED ON) 
     
     // Button (PC7) as input with pull-up enabled
     PORTC.PIN7CTRL |= PORT_PULLUPEN_bm; // Enable pull-up on PC7 
@@ -80,11 +80,13 @@ int main(void) {
                 // New press: record start time
                 button_pressed = 1;
                 press_duration = 0;
-            } else {
+            } 
+            else {
                 // Button still pressed: increment duration
                 if (press_duration < 65000) press_duration++;
             }
-        } else {                    // Button is released
+        } 
+        else {                    // Button is released
             if (button_pressed) {
                 // Button was just released
                 if (press_duration > 300) { // Pressed for more than 300*10ms = 3s
@@ -105,13 +107,15 @@ int main(void) {
                             break;
                     }
                     led_counter = 0; // Reset LED timing counter
-                } else { // Short press (<= 3s)
+                } 
+                else { // Short press (<= 3s)
                     // Only toggle LED in mode 1
                     if (mode == 1) {
                         if (led_state) {
                             VPORTC.OUT |= LED_PIN;   // Turn LED OFF
                             led_state = 0;
-                        } else {
+                        } 
+                        else {
                             VPORTC.OUT &= ~LED_PIN;  // Turn LED ON
                             led_state = 1;
                         }
@@ -129,7 +133,7 @@ int main(void) {
                 // No periodic action needed (handled by button press)
                 break;
                 
-            case 2: // Blink LED every 500ms (10 cycles * 10ms = 100ms)
+            case 2: // Blink LED every 100ms (10 cycles * 10ms = 100ms)
                 if (led_counter >= 10) {
                     VPORTC.OUT ^= LED_PIN; // Toggle LED state
                     led_counter = 0;       // Reset counter
@@ -139,7 +143,8 @@ int main(void) {
             case 3: // LED ON for 100ms, OFF for 900ms (total 1000ms cycle)
                 if (led_counter == 10) {       // After 100ms
                     VPORTC.OUT |= LED_PIN;     // Turn OFF LED
-                } else if (led_counter >= 100) { // After 1000ms
+                } 
+                else if (led_counter >= 100) { // After 1000ms
                     VPORTC.OUT &= ~LED_PIN;    // Turn ON LED
                     led_counter = 0;           // Reset counter
                 }
