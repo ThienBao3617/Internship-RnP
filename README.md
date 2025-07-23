@@ -32,12 +32,12 @@ This document provides a concise overview of my internship tasks. Detailed theor
 
 4. **Documentation & Verification**
 
-   * For each module: theory, algorithm flowchart, annotated code, and proof of execution (photos or logs)
+   * For each module: theory, algorithm flowchart, source code
 
 ## Repository Structure
 
-* `DAYx/ModuleName/` – Source code and `theory.md` for each module
-* `Docs/` – Theory, flowcharts, schematics, and images.
-* `.gitignore` – Excluded files
+* `MODx/ModuleName.X/` – Source code for each module using MPLAP X IDE.
+* `Docs/` – Theory, Flowchart.
+* `.gitignore` – Excluded files.
 
 
