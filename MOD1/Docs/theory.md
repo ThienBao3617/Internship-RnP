@@ -2,25 +2,34 @@
 
 ## Table of Contents
 
-1. [Introduction](#introduction)
-2. [MCU Modules Used](#mcu-modules-used)
-3. [Theory and Implementation](#theory-and-implementation)
-
+1. [Overview](#overview)
+2. [Hardware](#hardware)
+3. [MCU Modules Used](#mcu-modules-used)
+4. [Theory and Implementation](#theory-and-implementation)
+5. [Summary](#Summary)
 ---
 
-## Introduction
+## 1. Overview
 
-This document explains how to control an LED and read a push-button on the AVR128DA48 in three modes:
+This application explains how to control an LED and read a push-button on the AVR128DA48 in three modes:
 
-* **Mode 1:** LED stays on by default; a single press toggles the LED state; press button and hold about 3s then release to switch to **mode 2**.
-* **Mode 2:** LED blinks with a 100 ms period; then hold for 3s and release to switch to **mode 3**.
-* **Mode 3:** LED on for 100 ms, off for 900 ms; continue hold for 3s then release to switch back to **mode 1**.
+* **Mode 1:** LED on by default. Short press toggles LED. Press and hold for 3s to enter  **Mode 2**.
+* **Mode 2:** LED blinks with 100ms period. Press and hold for 3s to enter **Mode 3**.
+* **Mode 3:** LED on for 100ms, off for 900ms. Press and hold for 3s to return to **Mode 1**.
 
 Focus areas: clock setup, GPIO configuration, and push-button handling (debouncing).
 
 ---
 
-## MCU Modules Used
+## 2. Hardware
+- MCU: AVR128DA48 (Curiosity Nano)
+
+- LED: PC6 (Active Low -> 0: ON, 1: OFF)
+
+- Button: PC7 (Pull-up, pressed = 0)
+---
+
+## 3. MCU Modules Used
 
 | Module              | Function                           | Datasheet Reference |
 | ------------------- | ---------------------------------- | ------------------- |
@@ -30,9 +39,9 @@ Focus areas: clock setup, GPIO configuration, and push-button handling (debounci
 
 ---
 
-## Theory and Implementation
+## 4. Theory and Implementation
 
-### 1. Clock Setup
+### 4.1. Clock Setup
 
 **Theory:**
 
@@ -67,7 +76,7 @@ CLKCTRL.MCLKCTRLB = (0x01 << CLKCTRL_PDIV_gp) | CLKCTRL_PEN_bm;
 - Optimal balance between processing capability and power efficiency for this application.
 ---
 
-### 2. GPIO Configuration
+### 4.2. GPIO Configuration
 
 **Theory:**
 
@@ -91,7 +100,7 @@ PORTC.PIN7CTRL |= PORT_PULLUPEN_bm;
 
 ---
 
-### 3. Button Handling and Timing
+### 4.3. Button Handling and Timing
 
 **Theory:**
 
@@ -154,7 +163,7 @@ _delay_ms(10);  // create delay as 10ms
 
 ---
 
-## Summary of Modules
+## 5. Summary 
 
 | Module        | Role                         | Setting    | Registers Used         |
 | ------------- | ---------------------------- | ---------- | ---------------------- |
